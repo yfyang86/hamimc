@@ -9,7 +9,7 @@ This project is mainly about Hamiltonian Monte Carlo. It is a course related pro
 > Rccp/RcppArmadillo    
 > RSTAN/RJAGS	
 
-Our team member is [Gao,Wei]() | [Xie,Zhiheng]() |[Yang,Yifan(me)](sweb.uky.edu/~yya234/)
+Our team member is [Gao,Wei](http://mailto:g.w@uky.edu) | [Xie,Zhiheng](http://mailto:zhiheng.xie@uky.edu/) |[Yang,Yifan(me)](sweb.uky.edu/~yya234/)
 
 <hr>
 **Chinese version**
