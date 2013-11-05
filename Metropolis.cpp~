@@ -86,10 +86,45 @@ void run_metropolis_MCMC(double *startvalue, int iterations,gsl_matrix * chain){
     gsl_rng_free(r);
 }
 
+
+int my_gsl_matrix_fprintf(FILE *stream,gsl_matrix *m)
+{
+    size_t rows=m->size1;
+    size_t cols=m->size2;
+    size_t row,col,ml;
+    int fill;
+    char buf[100];
+    gsl_vector *maxlen;
+    
+    maxlen=gsl_vector_alloc(cols);
+    for (col=0;col<cols;++col) {
+        ml=0;
+        for (row=0;row<rows;++row) {
+            sprintf(buf,"%g",gsl_matrix_get(m,row,col));
+            if (strlen(buf)>ml)
+                ml=strlen(buf);
+        }
+        gsl_vector_set(maxlen,col,ml);
+    }
+    
+    for (row=0;row<rows;++row) {
+        for (col=0;col<cols;++col) {
+            sprintf(buf,"%g",gsl_matrix_get(m,row,col));
+            fprintf(stream,"%s",buf);
+            fill=gsl_vector_get(maxlen,col)+1-strlen(buf);
+            while (--fill>=0)
+                fprintf(stream," ");
+        }
+        fprintf(stream,"\n");
+    }
+    gsl_vector_free(maxlen);
+    return 0;
+}
+
+
 int main(int argc, const char * argv[])
-{ // adding the following line if one uses MAC OS<10.8;
-  //unsetenv("VECLIB_MAXIMUM_THREADS");
-  // g++ ... -framework veclib
+{
+    unsetenv("VECLIB_MAXIMUM_THREADS");
     int itt=10000;
     if (argc==2){
         itt=atoi(argv[1]);
@@ -103,7 +138,7 @@ int main(int argc, const char * argv[])
     //int dudu=10000;
     gsl_matrix * chain=gsl_matrix_alloc (itt+1,2);
     run_metropolis_MCMC(startvalue,itt,chain);
-    gsl_matrix_fprintf(f, chain,'%g');
+    my_gsl_matrix_fprintf(f, chain);
     fclose (f);
     gsl_matrix_free (chain);
     
