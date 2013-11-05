@@ -103,7 +103,7 @@ int main(int argc, const char * argv[])
     //int dudu=10000;
     gsl_matrix * chain=gsl_matrix_alloc (itt+1,2);
     run_metropolis_MCMC(startvalue,itt,chain);
-    gsl_matrix_fprintf(f, chain,'%g');
+    gsl_matrix_fprintf(f, chain,"%g");
     fclose (f);
     gsl_matrix_free (chain);
     
