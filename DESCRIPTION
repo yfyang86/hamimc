@@ -1,0 +1,10 @@
+Package: packageName
+Version: 0.0-0
+Title: Package Title
+Author: FirstName LastName <emailName@some.domain.net>
+Maintainer: FirstName LastName <emailName@some.domain.net>
+Description: Package Description
+License: licenseInfo
+Depends: R (>= 2.13.1), packageNames
+Imports: packageNames
+
