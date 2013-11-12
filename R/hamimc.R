@@ -1,5 +1,3 @@
-#
-library(tcltk)
 library(mvtnorm)
 library(ks)
 library(coda)
@@ -20,10 +18,10 @@ findE<-function(x,...){
 gradE<-function(x,...){
 	A%*%x
 	}
-
+	
 hmc.1<-function(x,gradE,findE,L,Tau,epsilon){
-	pb <- tkProgressBar(title = "progress bar", min = 0,
-                    max = L, width = 300)
+	pb <- winProgressBar(title = "progress bar", min =0,
+                     max = L, width = 300)
 	g=gradE(x);
 	E=findE(x);
 	x.trace<-matrix(0,ncol=length(x),L+1);
@@ -57,7 +55,7 @@ for (l in 1:L){# loop L times
 }
 if (l%%1000==0){
 	Sys.sleep(0.00001)
-	setTkProgressBar(pb, l, label=paste('HMC: ', round(l/L*100, 0),
+   setWinProgressBar(pb, l, title=paste('HMC:\t', round(l/L*100, 0),
                                         "% done"))
 	}	
 }
