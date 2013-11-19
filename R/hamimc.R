@@ -1,25 +1,12 @@
-library(mvtnorm)
-library(ks)
-library(coda)
 
-kdeplot <- function(data, fff = function(X)Hpi(X,pilot='amse',pre='scale')
-	) {
-    re.x <- kde(data, H = fff(data))
-
-    contour(re.x$eval.points[[1]], re.x$eval.points[[2]], re.x$estimate)
-
-}
-
-A<-solve(matrix(c(1,0.998,0.998,1),ncol=2))
-
-findE<-function(x,...){
-	(t(x)%*%A)%*%x/2
-}
-gradE<-function(x,...){
-	A%*%x
-	}
-	
 hmc.1<-function(x,gradE,findE,L,Tau,epsilon){
+  A<-solve(matrix(c(1,0.998,0.998,1),ncol=2))
+  findE<-function(x,...){
+    (t(x)%*%A)%*%x/2
+  }
+  gradE<-function(x,...){
+    A%*%x
+  }
 	pb <- winProgressBar(title = "progress bar", min =0,
                      max = L, width = 300)
 	g=gradE(x);
@@ -63,7 +50,7 @@ if (l%%1000==0){
 	return (x.trace);
 }
 
-#iteration=10000
+#iteration=10000      
 #re.hmc1<-hmc.1(x=c(1,1),gradE,findE,iteration,19,0.055);
 
 #xyplot(mcmc(re.hmc1))

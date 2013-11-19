@@ -1,10 +1,11 @@
-Package: packageName
-Version: 0.0-0
-Title: Package Title
-Author: FirstName LastName <emailName@some.domain.net>
-Maintainer: FirstName LastName <emailName@some.domain.net>
-Description: Package Description
-License: licenseInfo
-Depends: R (>= 2.13.1), packageNames
-Imports: packageNames
-
+Package: hamimc
+Type: Package
+Title: Hybrid Monte Carlo
+Version: 1.0
+Date: 2013-11-18
+Author: Yifan Yang <yifan.yang@uky.edu>
+Maintainer: Yifan Yang <yifan.yang@uky.edu>
+Description: Hybrid Monte Carlo and others
+License: GPL
+Depends: Rcpp (>= 0.10.6), coda, mvtnorm
+LinkingTo: Rcpp
