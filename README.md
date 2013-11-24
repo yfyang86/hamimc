@@ -1,5 +1,5 @@
 hamimc
-======
+==
 
 Hamiltonian Monte Carlo in R
 
@@ -10,7 +10,7 @@ This project is mainly about Hamiltonian Monte Carlo. It is a course related pro
 > RSTAN/RJAGS	
 
 Bug Report and documents
-==
+====
 One can send buf report using git-hub or through email. Besides, document is open too.
 
 
