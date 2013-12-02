@@ -41,7 +41,7 @@ ff<-function(knots,quest=0,endc=F){
   return (list(kn=data.frame(x=x,y=y),pr=quest.y));
 }
  
-# delte, see comment  
+# delte, see comment 
 # ff.vec<-Vectorize(function(x){ff(quest=x,knots=knots)$pr})
  
 ## inner
