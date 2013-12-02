@@ -1,4 +1,8 @@
 ff<-function(knots,quest=0,endc=F){
+ # This function could be extended to handle 
+ # Binary Choice Model: 
+ # enable endc=T
+ # In BMC Modify 20 to a proper value!!!!  
   x=knots$x;
   y=knots$y;
   n=length(knots$x)
@@ -12,7 +16,6 @@ ff<-function(knots,quest=0,endc=F){
   #Starting point/end point checking
   if(endc){if (y[1]!=0) {
     warning('y[1] must be 0')
-   
     x0=(-20 *x[1] + 20*x[2] + x[2]* y[1] - x[1] *y[2] )/(y[1]-y[2])
     x=c(x0,x);
     n=n+1
@@ -38,12 +41,8 @@ ff<-function(knots,quest=0,endc=F){
   return (list(kn=data.frame(x=x,y=y),pr=quest.y));
 }
  
- 
-ff.vec<-Vectorize(
-  function(x){
-    ff(quest=x,knots=knots)$pr
-  }
-)
+# delte, see comment  
+# ff.vec<-Vectorize(function(x){ff(quest=x,knots=knots)$pr})
  
 ## inner
  
@@ -76,8 +75,10 @@ es.knots<-function(x,f=tg.density,...){
   return(list(inner.knots =inner.knots ,  outer.knots=  outer.knots));
 }
  
-reject.sampling<-function(n,tg.density=tg.density,graph=T,method='ARS',detail=F,debug=F){ 
-  x=seq(from=-15,to=15,by=.98124)
+reject.sampling<-function(n,tg.density=tg.density,graph=T,method='ARS',detail=F,debug=F,control=list(center=0,bound=15)){
+  centr.rs <- control$center
+  bound.rs <- max(abs(control$bound),5);
+  x=seq(from=-bound.rs,to=bound.rs,by=.98124)+centr.rs
   if (graph){
   	      curve(tg.density,from=-4,to=4)
               points(x,tg.density(x),pch='*',col=4)
@@ -92,25 +93,38 @@ reject.sampling<-function(n,tg.density=tg.density,graph=T,method='ARS',detail=F,
   if (graph) points(re2$kn$x,re2$kn$y,type='l',col=3)#inner-knot
   es.knots(x,f=tg.density)[[2]]->knots
  
-  #ff.vec<-Vectorize(
+  
+  # for speed consideration, use
+  # standard approxfun: linearly joint 
+  # following is another approach, which is much slower
+  # ff.vec<-Vectorize(# MUST VECTORIZED!!!!!!!!!!!!
   #  function(x,...){
   #    exp(ff(quest=x,knots=knots)$pr)
   #  }
-  #)
- 
+  # )
+  
   ff.vec<-approxfun(knots$x,knots$y,method="linear")
+  
+  # make sure the pseudo pdf is a pdf
+  # calculate the normalization parameters
   tt=integrate(function(x)exp(ff.vec(x)),lower=x[1],upper=max(x))$value
   tt2=integrate(function(x)exp(tg.density(x)),lower=x[1],upper=max(x))$value
   if (debug) cat('\nTarget density',tt2,'\n')
+  
+  # Vectorize the PDF (normalized)
   ffstd.vec<-Vectorize(function(x,...){
+    # pattern templates, pass tt into the function
     exp(ff.vec(x))/tt
   })
   nn=0;
-  cc=0;
+  cc=0; # counting flag for LOOPS
   rere<-NULL
   while(nn<=n){
-    rvdens(1,FUN=ffstd.vec,range=range(x),unitprecision=10)->re# otherwise  pexp {msm} could be used
-    U=runif(4000);
+    # for speed consideration, rvdens is used to sample the piecewise exponential distribution
+    # rather than INVERSE method
+    # anthor choice could be pexp {msm}
+    rvdens(1,FUN=ffstd.vec,range=range(x),unitprecision=10)->re
+    U=runif(4000); # 4000 a batch 
     re0 <- re[[1]][U<=(exp(tg.density(re[[1]]) )/tt2/exp(ff.vec(re[[1]])))]
     re0 <- re0[!is.na(re0)]
     rere<- c(re0,rere)
@@ -119,6 +133,7 @@ reject.sampling<-function(n,tg.density=tg.density,graph=T,method='ARS',detail=F,
   }
   if (graph)legend("bottom",legend=paste('Acc Rate=',length(rere)/(4000*cc)));
   if (detail) print(paste('Acc Rate=',length(rere)/(4000*cc)));
+  gc();# MEMORY restore
   return(list(knots=knots,simu=rere[1:n]));
 }
  
