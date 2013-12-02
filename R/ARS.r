@@ -75,12 +75,23 @@ es.knots<-function(x,f=tg.density,...){
   return(list(inner.knots =inner.knots ,  outer.knots=  outer.knots));
 }
  
-reject.sampling<-function(n,tg.density=tg.density,graph=T,method='ARS',detail=F,debug=F,control=list(center=0,bound=15)){
+reject.sampling.intial <- cmpfun(function(tg.density){
+  seq.x<-seq(from=-20000,to=20000,by=2);
+  tg.density.nolog<-function(x)exp(tg.density(x));
+  seq.x[which.max(tg.density.nolog(seq.x))] ->  midd
+  range <- c(-50,50) + midd
+  mean=integrate(function(x)tg.density.nolog(x)*x,lower=range[1],upper=range[2])$value;
+  spread=integrate(function(x) x*x*tg.density.nolog(x),lower=range[1],upper=range[2])$value-mean*mean;
+  return(list(mean=mean,spread=spread,search.max=midd));
+})
+
+reject.sampling<-function(n,tg.density=tg.density,graph=T,method='ARS',detail=F,debug=F,control=list(center=0,bound=15,step=0.1312)){
   centr.rs <- control$center
   bound.rs <- max(abs(control$bound),5);
-  x=seq(from=-bound.rs,to=bound.rs,by=.98124)+centr.rs
+  stepsize.rs <- min(abs(control$step),.98124);
+  x=seq(from=-bound.rs,to=bound.rs,by=stepsize.rs)+centr.rs
   if (graph){
-  	      curve(tg.density,from=-4,to=4)
+  	      curve(tg.density,from=centr.rs-bound.rs,to=centr.rs+bound.rs)
               points(x,tg.density(x),pch='*',col=4)
               }
   knots<-data.frame(x=x,y=tg.density(x));

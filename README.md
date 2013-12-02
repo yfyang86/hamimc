@@ -26,7 +26,32 @@ There is an Adaptive Rejection Sampling (ARS) impelemented in our package. It is
  - ars.new(**unuran**) http://statmath.wu.ac.at/unuran/    
  - are(**ars**) http://cran.r-project.org/web/packages/ars/
 
-Theses functions are more computational efficient.
+Theses functions are more computational efficient. 
+
+Additially, we offer an initialization function in our code:
+
+```r
+library(hamimc)
+tg.func<-Vectorize(function(x){ # target function
+  dnorm(x=x,mean=1001.24,log=T)
+}
+)
+reject.sampling.intial(tg.func) -> initial ## Initialization!
+re.sample<-reject.sampling(n=10000,tg.density=tg.func,graph=T,
+                control=list(center=initial$mean,bound=initial$spread*5,step=0.123))
+hist(re.sample$simu)
+``` 
+
+The initial function uses a line search to guess the unimod (very roughly), then calculate the mean and variance.  In previouse example, the following code shows WHY the model fails without initialization.
+
+```r
+integrate(function(x)x*dnorm(x,mean=10000), -Inf, Inf)   ## NOT work
+integrate(function(x)x*dnorm(x,mean=10000), 9990, Inf)   ## works
+```
+
+Notice if the variance is very large, or the distribution has no mean (e.g. Guassian), this method will fail. We suggest using quantile information instead. For unimode distributions, this could be done via greedy search.  
+
+Other ways of initialization are possible, *we are of no interest of comparison*.
 
 Bug Report and documents
 ------------------------------
