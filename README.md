@@ -1,5 +1,5 @@
 hamimc
-======
+==
 
 Hamiltonian Monte Carlo in R
 
@@ -8,6 +8,15 @@ This project is mainly about Hamiltonian Monte Carlo. It is a course related pro
 > More documents    
 > Rccp/RcppArmadillo    
 > RSTAN/RJAGS	
+
+Bug Report and documents
+====
+One can send buf report using git-hub or through email. Besides, document is open too.
+
+
+> Due to Xcode/Rcpp problem, hamimc could't work on R >=3.0.1 with Xcode>=5 on Mac>=10.9. But it works on R<=2.15.3 on any version of Mac OS.
+
+> The document would be found on [an open Latex system](https://www.authorea.com/users/3481/articles/3578/)
 
 Our team member is [Gao,Wei](http://mailto:g.w@uky.edu) | [Xie,Zhiheng](http://mailto:zhiheng.xie@uky.edu/) |[Yang,Yifan(me)](sweb.uky.edu/~yya234/)
 
