@@ -19,7 +19,7 @@ We transfered a MATLAB code into R code directly. Tuning method would be availab
 
 Now the code works only for $N_2(\mu,\Sigma)$. There would also be a *easter egg* when release :)
 
-[![A Demo Video](https://github.com/yfyang86/hamimc/blob/master/hmcdemo.mp4)
+[![A Demo Video](http://sweb.uky.edu/~yya234/images/hmcc.png)](https://github.com/yfyang86/hamimc/blob/master/hmcdemo.mp4)
 
 ARS.R
 -----------------------
