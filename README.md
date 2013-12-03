@@ -19,6 +19,8 @@ We transfered a MATLAB code into R code directly. Tuning method would be availab
 
 Now the code works only for $N_2(\mu,\Sigma)$. There would also be a *easter egg* when release :)
 
+[![A Demo Video](https://github.com/yfyang86/hamimc/blob/master/hmcdemo.mp4)
+
 ARS.R
 -----------------------
 There is an Adaptive Rejection Sampling (ARS) impelemented in our package. It is in pure R code (exception: using **rv** to sample piecewise exponential distribution).  For speed consieration, we suggest using
