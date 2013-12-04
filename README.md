@@ -9,6 +9,7 @@ This project is mainly about Hamiltonian Monte Carlo. It is a course related pro
 > Rccp/RcppArmadillo    
 > RSTAN/RJAGS	
 
+<img src="http://yuml.me/616642f3" >
 
 hamimc.R
 -----------------------
