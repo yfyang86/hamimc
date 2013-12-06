@@ -78,22 +78,26 @@ es.knots<-function(x,f=tg.density,...){
 reject.sampling.intial <- cmpfun(function(tg.density){
   seq.x<-seq(from=-20000,to=20000,by=2);
   tg.density.nolog<-function(x)exp(tg.density(x));
-  seq.x[which.max(tg.density.nolog(seq.x))] ->  midd
-  range <- c(-50,50) + midd
+  seq.x[which.max(tg.density(seq.x))] ->  midd
+  range <- c(-20,20) + midd
   mean=integrate(function(x)tg.density.nolog(x)*x,lower=range[1],upper=range[2])$value;
-  spread=integrate(function(x) x*x*tg.density.nolog(x),lower=range[1],upper=range[2])$value-mean*mean;
+  spread=abs(integrate(function(x) x*x*tg.density.nolog(x),lower=range[1],upper=range[2])$value-mean*mean);
   return(list(mean=mean,spread=spread,search.max=midd));
 })
 
-reject.sampling<-function(n,tg.density=tg.density,graph=T,method='ARS',detail=F,debug=F,control=list(center=0,bound=15,step=0.1312)){
+reject.sampling<-cmpfun(function(n,tg.density=tg.density,graph=F,method='ARS',detail=F,debug=F,control=list(center=0,bound=15,step=0.1312),batch.mode=T,...){
   centr.rs <- control$center
-  bound.rs <- max(abs(control$bound),5);
+  bound.rs <- min(max(abs(control$bound),10),30);
   stepsize.rs <- min(abs(control$step),.98124);
   x=seq(from=-bound.rs,to=bound.rs,by=stepsize.rs)+centr.rs
   if (graph){
-  	      curve(tg.density,from=centr.rs-bound.rs,to=centr.rs+bound.rs)
-              points(x,tg.density(x),pch='*',col=4)
-              }
+    curve(tg.density,from=centr.rs-bound.rs,to=centr.rs+bound.rs)
+    points(x,tg.density(x),pch='*',col=4)
+  }
+  knots<-data.frame(x=x,y=tg.density(x));
+  knots.range<- which(knots$y>-30 )
+  knots.range=range(knots$x[knots.range])
+  x=seq(from=knots.range[1],to=knots.range[2],length.out=50)
   knots<-data.frame(x=x,y=tg.density(x));
   re<-ff(knots)
   if (graph){
@@ -103,7 +107,7 @@ reject.sampling<-function(n,tg.density=tg.density,graph=T,method='ARS',detail=F,
   re2<-ff(es.knots(x,f=tg.density)[[2]])
   if (graph) points(re2$kn$x,re2$kn$y,type='l',col=3)#inner-knot
   es.knots(x,f=tg.density)[[2]]->knots
- 
+  
   
   # for speed consideration, use
   # standard approxfun: linearly joint 
@@ -118,8 +122,8 @@ reject.sampling<-function(n,tg.density=tg.density,graph=T,method='ARS',detail=F,
   
   # make sure the pseudo pdf is a pdf
   # calculate the normalization parameters
-  tt=integrate(function(x)exp(ff.vec(x)),lower=x[1],upper=max(x))$value
-  tt2=integrate(function(x)exp(tg.density(x)),lower=x[1],upper=max(x))$value
+  
+  
   if (debug) cat('\nTarget density',tt2,'\n')
   
   # Vectorize the PDF (normalized)
@@ -127,25 +131,41 @@ reject.sampling<-function(n,tg.density=tg.density,graph=T,method='ARS',detail=F,
     # pattern templates, pass tt into the function
     exp(ff.vec(x))/tt
   })
-  nn=0;
-  cc=0; # counting flag for LOOPS
-  rere<-NULL
-  while(nn<=n){
-    # for speed consideration, rvdens is used to sample the piecewise exponential distribution
-    # rather than INVERSE method
-    # anthor choice could be pexp {msm}
-    rvdens(1,FUN=ffstd.vec,range=range(x),unitprecision=10)->re
-    U=runif(4000); # 4000 a batch 
-    re0 <- re[[1]][U<=(exp(tg.density(re[[1]]) )/tt2/exp(ff.vec(re[[1]])))]
-    re0 <- re0[!is.na(re0)]
-    rere<- c(re0,rere)
-    nn=length(rere)
-    cc=cc+1;
+  if(batch.mode){
+    tt=integrate(function(x)exp(ff.vec(x)),lower=x[1],upper=max(x))$value
+    tt2=integrate(function(x)exp(tg.density(x)),lower=x[1],upper=max(x))$value
+    nn=0;
+    cc=0; # counting flag for LOOPS
+    rere<-NULL
+    while(nn<=n){
+      # for speed consideration, rvdens is used to sample the piecewise exponential distribution
+      # rather than INVERSE method
+      # anthor choice could be pexp {msm}
+      rvdens(1,FUN=ffstd.vec,range=range(x),unitprecision=8)->re
+      U=runif(4000); # 4000 a batch 
+      re0 <- re[[1]][U<=(exp(tg.density(re[[1]]) )/tt2/exp(ff.vec(re[[1]])))]
+      re0 <- re0[!is.na(re0)]
+      rere<- c(re0,rere)
+      nn=length(rere)
+      cc=cc+1;
+    }
+  }else{
+    n<-dim(knots)[1];# number of knots
+    a.s=(knots[2:n,2]-knots[1:(n-1),2])/(knots[2:n,1]-knots[1:(n-1),1])
+    b.s=knots[2:n,2]-a.s*knots[2:n,1]
+    knots.si=exp(b.s)*(
+      exp(a.s*knots[2:n,1])-exp(a.s*knots[1:(n-1),1])
+    )/a.s
+    knots.si=knots.si/sum(knots.si);
+    knots.S=c(0,cumsum(knots.si),1);
+    runif(1)->tmpyyy
+    knots.loc=sum(tmpyyy>knots.S);
+    return(list(knots=knots,simu=(log(tmpyyy-knots.S[knots.loc])-b.s[knots.loc])/a.s[knots.loc]) );
   }
+  
   if (graph)legend("bottom",legend=paste('Acc Rate=',length(rere)/(4000*cc)));
   if (detail) print(paste('Acc Rate=',length(rere)/(4000*cc)));
   gc();# MEMORY restore
   return(list(knots=knots,simu=rere[1:n]));
 }
- 
- 
+)
