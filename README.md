@@ -9,6 +9,7 @@ This project is mainly about Hamiltonian Monte Carlo. It is a course related pro
 > Rccp/RcppArmadillo    
 > RSTAN/RJAGS	
 
+<img src="http://yuml.me/616642f3" >
 
 hamimc.R
 -----------------------
@@ -19,12 +20,14 @@ We transfered a MATLAB code into R code directly. Tuning method would be availab
 
 Now the code works only for $N_2(\mu,\Sigma)$. There would also be a *easter egg* when release :)
 
+[![A Demo Video](http://sweb.uky.edu/~yya234/images/hmcc.png)](https://github.com/yfyang86/hamimc/blob/master/hmcdemo.mp4)
+
 ARS.R
 -----------------------
 There is an Adaptive Rejection Sampling (ARS) impelemented in our package. It is in pure R code (exception: using **rv** to sample piecewise exponential distribution).  For speed consieration, we suggest using
 
  - ars.new(**unuran**) http://statmath.wu.ac.at/unuran/    
- - are(**ars**) http://cran.r-project.org/web/packages/ars/
+ - ars(**ars**) http://cran.r-project.org/web/packages/ars/
 
 Theses functions are more computational efficient. 
 
@@ -42,14 +45,14 @@ re.sample<-reject.sampling(n=10000,tg.density=tg.func,graph=T,
 hist(re.sample$simu)
 ``` 
 
-The initial function uses a line search to guess the unimod (very roughly), then calculate the mean and variance.  In previouse example, the following code shows WHY the model fails without initialization.
+The initial function uses a line search to guess the (uni)mode (very roughly), then calculate the mean and variance.  In previouse example, the following code shows WHY the model fails without initialization.
 
 ```r
 integrate(function(x)x*dnorm(x,mean=10000), -Inf, Inf)   ## NOT work
 integrate(function(x)x*dnorm(x,mean=10000), 9990, Inf)   ## works
 ```
 
-Notice if the variance is very large, or the distribution has no mean (e.g. Guassian), this method will fail. We suggest using quantile information instead. For unimode distributions, this could be done via greedy search.  
+Notice if the variance is very large, or the distribution has no mean (e.g. [Cauchy Distribution](http://en.wikipedia.org/wiki/Cauchy_distribution)), this method will fail. We suggest using quantile information instead. For unimode distributions, this could be done via greedy search.  
 
 Other ways of initialization are possible, *we are of no interest of comparison*.
 
