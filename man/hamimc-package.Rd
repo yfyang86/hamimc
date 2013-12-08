@@ -36,5 +36,60 @@ Maintainer: Who to complain to <yourfault@somewhere.net>
 ~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
 }
 \examples{
-%% ~~ simple examples of the most important functions ~~
+## Not run
+######################
+## M-H tuned
+######################
+ITER=10000
+x.initial=1:50
+buinin=5000
+dproposalfunction<-function(xt1,xt){# We could try other proposals
+  xt<-as.vector(xt)
+ Si=diag(rep(1,length(xt)))/20+xt%*%t(xt)/60
+ mvtnorm::dmvnorm(xt1,mean=xt,sigma=Si,log=T)
+}
+
+rproposalfunction<-function(xt){
+  xt<-as.vector(xt)
+  Si=diag(rep(1,length(xt)))/20+xt%*%t(xt)/60
+ mvtnorm::rmvnorm(n=1,mean=xt,sigma=Si)
+}
+
+#target function
+A = matrix(rep(0.998,50^2),ncol=50)*outer(1:50,1:50,'*')
+diag(A)=(1:50)^2
+
+dtarget<-function(x,...){
+ p=length(x)
+ mvtnorm::dmvnorm(x,mean=rep(0,p),sigma=A,log=T)
+}
+
+MH.framework(dproposalfunction,rproposalfunction,dtarget,A=A) ->  X.flow
+
+library(coda)
+
+xyplot(mcmc(X.flow[,c(2,45)]))
+par(mfrow=c(1,2))
+densplot(mcmc(X.flow[-(1:buinin),c(2,45)]))
+par(mfrow=c(1,1))
+
+plot(X.flow[-(1:buinin),c(2,45)],type='l')
+rejectionRate(mcmc(X.flow[-(1:buinin),c(2,45)]))
+#     var1      var2 
+# 0.9819964 0.9819964 
+
+######################
+##  Gibbs
+######################
+
+######################
+##  HMC-plain
+######################
+
+
+######################
+##  HMC
+##  tune epsilon
+######################
+
 }
