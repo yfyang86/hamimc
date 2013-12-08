@@ -1,5 +1,4 @@
-
-MH.framework<-function(ITER=10000,p=50,x.initial=1:p,buinin=5000,...){# using template!
+MH.framework<-function(dproposalfunction,rproposalfunction,dtarget,ITER=10000,p=50,x.initial=1:p,buinin=5000,...){# using template!
 X.flow=matrix(0,nrow=ITER,ncol=p);
 X.flow[1,]=x.initial
 
@@ -47,7 +46,7 @@ return(X.flow);
 #  mvtnorm::dmvnorm(x,mean=rep(0,p),sigma=A,log=T)
 #}
 
-#   MH.framework() ->  X.flow
+#   MH.framework(dproposalfunction,rproposalfunction,dtarget,A=A) ->  X.flow
 
 #library(coda)
 
