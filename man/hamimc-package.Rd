@@ -3,37 +3,38 @@
 \alias{hamimc}
 \docType{package}
 \title{
-What the package does (short line)
+A simple Hamiltonian Monte Carlo
 }
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
+The HMC code is from the original matlab code. Gibbs/MH/ARS methods were added.
+Besides, a automatically tuning method on stepwise based on original HMC is implemented.
+Package is under construction, and we use some code that belongs to (Neal,2011). For convience, it is wrappered.
+This package is not for seriouse research, and has no interests in comparing algorithms.
 }
 \details{
 \tabular{ll}{
 Package: \tab hamimc\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
+Version: \tab 1.1\cr
 Date: \tab 2013-11-18\cr
-License: \tab What Licence is it under ?\cr
+License: \tab MIT \cr
 }
 ~~ An overview of how to use the package, including the most important ~~
 ~~ functions ~~
 }
 \author{
-Who wrote it
+Yifan Yang
 
-Maintainer: Who to complain to <yourfault@somewhere.net>
+Maintainer: Who to complain to YANG,Yifan<yifan.yang@uky.edu>
 }
 \references{
-~~ Literature or other references for background information ~~
+Neal, R. "MCMC for Using Hamiltonian Dynamics." Handbook of Markov Chain Monte Carlo (2011): 113-162.
 }
 ~~ Optionally other standard keywords, one per line, from file KEYWORDS in ~~
 ~~ the R documentation directory ~~
 \keyword{ package }
 \seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
+\code{\link{coda}}
 }
 \examples{
 ## Not run
