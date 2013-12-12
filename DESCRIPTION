@@ -7,5 +7,4 @@ Author: Yifan Yang <yifan.yang@uky.edu>
 Maintainer: Yifan Yang <yifan.yang@uky.edu>
 Description: Hybrid Monte Carlo and others
 License: GPL
-Depends: Rcpp (>= 0.10.2), coda, mvtnorm, rv, compiler, numDeriv
-LinkingTo: Rcpp
+Depends: Rcpp (>= 0.10.2), coda, mvtnorm, rv, compiler, numDeriv, snow
