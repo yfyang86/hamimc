@@ -32,7 +32,7 @@ Neal, R. "MCMC for Using Hamiltonian Dynamics." Handbook of Markov Chain Monte C
 }
 ~~ Optionally other standard keywords, one per line, from file KEYWORDS in ~~
 ~~ the R documentation directory ~~
-\keyword{ hamimc }
+\keyword{ package }
 \seealso{
 \code{\link{coda}}
 }
