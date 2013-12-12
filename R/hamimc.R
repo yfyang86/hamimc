@@ -55,7 +55,8 @@ print('By defauly I will use 3 chains to tuning HMC, chain length=5000, Num of s
 print('One can increase the Num of steps if the results are not good.')
 print('--------------------------------------------------------------------------------')
 i=1
-while (i <= length(epsilon)){
+p=length(epsilon)
+while (i <= p ){
 cat('\nTry ',i,'-th epsilon = ',epsilon[i],'\n');
 cat('Chain ',1,':\n');
   hmc.1(x,L=L,Tau=Tau,epsilon[i])->tmp1
@@ -73,9 +74,9 @@ cat('Chain ',3,':\n');
   if (max(coda.C$psrf)<=cutoff) break;
   i=i+1;
 }
-if (i==5) {
+if (i==(p+1)) {
 warning('The chosen epsilon is not suitable, please increase L/Tau to repeat the tuning.');
-return (epsilon[4]);
+return (epsilon[p]);
 }else{
 return (epsilon[i]);
 }
