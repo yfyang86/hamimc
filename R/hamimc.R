@@ -1,4 +1,3 @@
-
 hmc.1<-function(x,L=1000,Tau=0,epsilon=0){
   A<-matrix(rep(0.998,50^2),ncol=50)*outer(1:50,1:50,'*')
   diag(A)=(1:50)^2
@@ -57,13 +56,17 @@ print('One can increase the Num of steps if the results are not good.')
 print('--------------------------------------------------------------------------------')
 i=1
 while (i <= length(epsilon)){
+cat('\nTry ',i,'-th epsilon = ',epsilon[i],'\n');
+cat('Chain ',1,':\n');
   hmc.1(x,L=L,Tau=Tau,epsilon[i])->tmp1
+cat('Chain ',2,':\n');
   hmc.1(x,L=L,Tau=Tau,epsilon[i])->tmp2
+cat('Chain ',3,':\n');
   hmc.1(x,L=L,Tau=Tau,epsilon[i])->tmp3
   coda.C=coda::gelman.diag(coda::mcmc.list(
   coda::mcmc(tmp1),
   coda::mcmc(tmp2),
-  coda::mcmc(tmp3),
+  coda::mcmc(tmp3)
   )
   )
   
