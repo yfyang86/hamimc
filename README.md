@@ -30,7 +30,7 @@ hamimc.R
 We transfered a MATLAB code into R code directly. Tuning method would be available:
 
 > Greedy search tuning $\epsilon$'s   
-> Simple version of No-U-tern tuning $L$
+> Simple version of No-U-tern tuning $L$(NOT finished yet, in R it is TOO SLOW)
 
 Now the code works only for $N_2(\mu,\Sigma)$. There would also be a *easter egg* when release :)
 
@@ -70,7 +70,7 @@ integrate(function(x)x*dnorm(x,mean=10000), 9990, Inf)   ## works
 
 Notice if the variance is very large, or the distribution has no mean (e.g. [Cauchy Distribution](http://en.wikipedia.org/wiki/Cauchy_distribution)), this method will fail. We suggest using quantile information instead. For unimode distributions, this could be done via greedy search.  
 
-Other ways of initialization are possible, *we are of no interest of comparison*.
+Other ways of initialization are possible, *we are of no interest of comparison*. You can read my long post ![here](http://sweb.uky.edu/~yya234/stuff/cs/BGLM.html).
 
 Bug Report and documents
 ------------------------------
@@ -81,7 +81,8 @@ One can send buf report using git-hub or through email. Besides, document is ope
 
 > The document would be found on [an open Latex system](https://www.authorea.com/users/3481/articles/3578/_show_article).
 
-Our team member is [Gao,Wei](http://mailto:g.w@uky.edu) | [Xie,Zhiheng](http://mailto:zhiheng.xie@uky.edu/) |[Yang,Yifan(me)](sweb.uky.edu/~yya234/)
+Our team members are [Gao,Wei](http://mailto:g.w@uky.edu) | [Xie,Zhiheng](http://mailto:zhiheng.xie@uky.edu/) |[Yang,Yifan(me)](sweb.uky.edu/~yya234/). If one has found any bug, please contact |[Yang,Yifan(me)](yfian.yang@uky.edu).
+
 
 <hr>
 **Chinese version**
