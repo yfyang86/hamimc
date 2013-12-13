@@ -3,7 +3,21 @@ hamimc
 
 Hamiltonian Monte Carlo in R
 ----------------------------------
-This project is mainly about Hamiltonian Monte Carlo. It is a course related project so it should be simple and straightforward. Dr. Radford in Toronto University has already contributed the R package [GRIMS](http://www.cs.utoronto.ca/~radford/GRIMS.html). Our goal is just to implement another simple approach.
+This project is mainly about Hamiltonian Monte Carlo. 
+
+Installation
+---------
+
+After install **devtools**, please run this line in R terminal:
+```{r}
+devtools::install_github('hamimc','yfyang86')
+```
+I've deleted all Cpp dependecies, so one doesn't need to compile a Rcpp version. Infuture I may offer a choice.
+
+Introduction
+----------------
+It is a course related project so it should be simple and straightforward. Dr. Radford in Toronto University ha
+s already contributed the R package [GRIMS](http://www.cs.utoronto.ca/~radford/GRIMS.html). Our goal is just to implement another simple approach.
 
 > Detailed documents    
 > Rccp/RcppArmadillo    
@@ -21,6 +35,8 @@ We transfered a MATLAB code into R code directly. Tuning method would be availab
 Now the code works only for $N_2(\mu,\Sigma)$. There would also be a *easter egg* when release :)
 
 [![A Demo Video](http://sweb.uky.edu/~yya234/images/hmcc.png)](https://github.com/yfyang86/hamimc/blob/master/hmcdemo.mp4)
+
+A simple way of tuning $\epilon$ given leapfrog steps is also available.
 
 ARS.R
 -----------------------
