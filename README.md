@@ -70,7 +70,7 @@ integrate(function(x)x*dnorm(x,mean=10000), 9990, Inf)   ## works
 
 Notice if the variance is very large, or the distribution has no mean (e.g. [Cauchy Distribution](http://en.wikipedia.org/wiki/Cauchy_distribution)), this method will fail. We suggest using quantile information instead. For unimode distributions, this could be done via greedy search.  
 
-Other ways of initialization are possible, *we are of no interest of comparison*. You can read my long post ![here](http://sweb.uky.edu/~yya234/stuff/cs/BGLM.html).
+Other ways of initialization are possible, *we are of no interest of comparison*. You can read my long post [here](http://sweb.uky.edu/~yya234/stuff/cs/BGLM.html).
 
 Bug Report and documents
 ------------------------------
