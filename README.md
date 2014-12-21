@@ -81,6 +81,8 @@ One can send buf report using git-hub or through email. Besides, document is ope
 
 > The document would be found on [an open Latex system](https://www.sharelatex.com/project/54971817d74148107a3bc4b0).
 
+![Online PDF](ScreenPdf.PNG)
+
 Our team members are [Gao,Wei](http://mailto:g.w@uky.edu) | [Xie,Zhiheng](http://mailto:zhiheng.xie@uky.edu/) |[Yang,Yifan(me)](sweb.uky.edu/~yya234/). If one has found any bug, please contact |[Yang,Yifan(me)](yfian.yang@uky.edu).
 
 
