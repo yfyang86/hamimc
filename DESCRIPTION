@@ -1,10 +1,12 @@
 Package: hamimc
 Type: Package
 Title: Hybrid Monte Carlo
-Version: 1.0
-Date: 2013-11-18
+Version: 1.0.011
+Date: 2016-04-04
 Author: Yifan Yang <yifan.yang@uky.edu>
 Maintainer: Yifan Yang <yifan.yang@uky.edu>
 Description: Hybrid Monte Carlo and others
-License: GPL
+License: GPL-3
 Depends: Rcpp (>= 0.10.2), coda, mvtnorm, rv, compiler, numDeriv, snow
+LinkingTo: Rcpp, RcppArmadillo
+NeedsCompilation: yes
