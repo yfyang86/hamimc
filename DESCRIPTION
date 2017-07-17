@@ -9,4 +9,4 @@ Description: Hybrid Monte Carlo and others
 License: GPL-3
 Depends: Rcpp (>= 0.10.2), coda, mvtnorm, rv, compiler, numDeriv, snow
 LinkingTo: Rcpp, RcppArmadillo
-NeedsCompilation: yes
+NeedsCompilation: no
