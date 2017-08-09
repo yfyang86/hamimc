@@ -1,2 +1,1 @@
-useDynLib(hamimc)
 exportPattern("reject.sampling","hmc.1","mcmc.test1")
